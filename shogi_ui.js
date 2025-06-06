@@ -199,16 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
   turnElem = document.getElementById("turn");
   senteTimerElem = document.getElementById("sente-timer");
   goteTimerElem = document.getElementById("gote-timer");
-const controlPanel = document.createElement("div");
-controlPanel.className = "control-panel";
 
-const saveBtn = document.createElement("button");
-saveBtn.textContent = "棋譜保存";
-saveBtn.onclick = exportKif;
-controlPanel.appendChild(saveBtn);
-
-
-document.body.appendChild(controlPanel);
 
 
   game = new ShogiGame();
@@ -223,7 +214,6 @@ document.body.appendChild(controlPanel);
       if (aiEnabled && game.turn === "後手") aiPlay();
     };
   }
-  const controlPanel = document.createElement("div");
   controlPanel.className = "control-panel";
 
   const saveBtn = document.createElement("button");
@@ -236,7 +226,17 @@ document.body.appendChild(controlPanel);
   pauseBtn.textContent = "一時停止";
   pauseBtn.onclick = togglePause;
   controlPanel.appendChild(pauseBtn);
+const controlPanel = document.createElement("div");
+controlPanel.className = "control-panel";
 
-  document.body.appendChild(controlPanel);
+const saveBtn = document.createElement("button");
+saveBtn.textContent = "棋譜保存";
+saveBtn.onclick = exportKif;
+controlPanel.appendChild(saveBtn);
+
+// ... 他のボタンもここに追加 ...
+
+document.body.appendChild(controlPanel);
+
 
 });
