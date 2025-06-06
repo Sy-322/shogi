@@ -213,4 +213,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (aiEnabled && game.turn === "後手") aiPlay();
     };
   }
+  const controlPanel = document.createElement("div");
+controlPanel.className = "control-panel";
+
+const saveBtn = document.createElement("button");
+saveBtn.textContent = "棋譜保存";
+saveBtn.onclick = exportKif;
+controlPanel.appendChild(saveBtn);
+
+const pauseBtn = document.createElement("button");
+pauseBtn.id = "pauseBtn";
+pauseBtn.textContent = "一時停止";
+pauseBtn.onclick = togglePause;
+controlPanel.appendChild(pauseBtn);
+
+document.body.appendChild(controlPanel);
+
 });
