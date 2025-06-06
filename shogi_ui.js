@@ -214,7 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
   const controlPanel = document.createElement("div");
-  const controlPanel = document.createElement("div");
   controlPanel.className = "control-panel";
 
   const saveBtn = document.createElement("button");
