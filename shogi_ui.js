@@ -216,7 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   controlPanel.className = "control-panel";
 
-  const saveBtn = document.createElement("button");
   saveBtn.textContent = "棋譜保存";
   saveBtn.onclick = exportKif;
   controlPanel.appendChild(saveBtn);
