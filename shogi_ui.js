@@ -1,4 +1,4 @@
-// 自動修正された shogi_ui.js（完全版）
+
 
 let game;
 let selected;
@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
   turnElem = document.getElementById("turn");
   senteTimerElem = document.getElementById("sente-timer");
   goteTimerElem = document.getElementById("gote-timer");
+  document.body.appendChild(controlPanel);
 
   game = new ShogiGame();
   render();
