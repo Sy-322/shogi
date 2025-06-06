@@ -199,7 +199,17 @@ document.addEventListener("DOMContentLoaded", () => {
   turnElem = document.getElementById("turn");
   senteTimerElem = document.getElementById("sente-timer");
   goteTimerElem = document.getElementById("gote-timer");
-  document.body.appendChild(controlPanel);
+const controlPanel = document.createElement("div");
+controlPanel.className = "control-panel";
+
+const saveBtn = document.createElement("button");
+saveBtn.textContent = "棋譜保存";
+saveBtn.onclick = exportKif;
+controlPanel.appendChild(saveBtn);
+
+
+document.body.appendChild(controlPanel);
+
 
   game = new ShogiGame();
   render();
