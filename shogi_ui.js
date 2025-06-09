@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
   kifBtn.onclick = exportKifAsKIF;
   controlPanel.appendChild(kifBtn);
 
-  // 一時停止／再開 ボタン（必要であれば）
+  // 一時停止／再開 ボタン
   const pauseBtn = document.createElement("button");
   pauseBtn.textContent = "一時停止";
   let paused = false;
@@ -289,3 +289,4 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(controlPanel);
   showKifuList();
 });
+
