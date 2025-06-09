@@ -197,45 +197,95 @@ document.addEventListener("DOMContentLoaded", () => {
   boardElem = document.getElementById("board");
   messageElem = document.getElementById("message");
   turnElem = document.getElementById("turn");
-  senteTimerElem = document.getElementById("sente-timer");
-  goteTimerElem = document.getElementById("gote-timer");
-
-
 
   game = new ShogiGame();
-  render();
-  startTimer();
+  selected = null;
+  dropMode = false;
+  selectedDrop = null;
+  moveHistory = [];
+  aiEnabled = false;
 
-  const aiToggle = document.getElementById("aiToggle");
-  if (aiToggle) {
-    aiToggle.onclick = () => {
-      aiEnabled = !aiEnabled;
-      aiToggle.textContent = `AI: ${aiEnabled ? "ON" : "OFF"}`;
-      if (aiEnabled && game.turn === "後手") aiPlay();
-    };
-  }
+  render();
+
+  const controlPanel = document.createElement("div");
   controlPanel.className = "control-panel";
 
+  // 棋譜保存ボタン
+  const saveBtn = document.createElement("button");
   saveBtn.textContent = "棋譜保存";
   saveBtn.onclick = exportKif;
   controlPanel.appendChild(saveBtn);
 
+  // ファイル読込（JSON）
+  const loadInput = document.createElement("input");
+  loadInput.type = "file";
+  loadInput.accept = ".json";
+  loadInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) importKif(file);
+  };
+  controlPanel.appendChild(loadInput);
+
+  // AI ON/OFF ボタン
+  const aiToggle = document.createElement("button");
+  aiToggle.id = "aiToggle";
+  aiToggle.textContent = "AI: OFF";
+  aiToggle.onclick = () => {
+    aiEnabled = !aiEnabled;
+    aiToggle.textContent = `AI: ${aiEnabled ? "ON" : "OFF"}`;
+    if (aiEnabled && game.turn === "後手") aiPlay();
+  };
+  controlPanel.appendChild(aiToggle);
+
+  // 難易度ボタン
+  const difficultyBtn = document.createElement("button");
+  difficultyBtn.id = "difficultyBtn";
+  difficultyBtn.textContent = "難易度: 普通";
+  difficultyBtn.onclick = () => {
+    aiDifficulty = aiDifficulty % 3 + 1;
+    difficultyBtn.textContent = `難易度: ${["弱い", "普通", "強い"][aiDifficulty - 1]}`;
+  };
+  controlPanel.appendChild(difficultyBtn);
+
+  // 性格ボタン
+  const personalityBtn = document.createElement("button");
+  personalityBtn.id = "personalityBtn";
+  personalityBtn.textContent = "性格: バランス";
+  personalityBtn.onclick = () => {
+    aiPersonality = aiPersonality === "バランス"
+      ? "攻撃" : aiPersonality === "攻撃"
+      ? "防御" : "バランス";
+    personalityBtn.textContent = `性格: ${aiPersonality}`;
+  };
+  controlPanel.appendChild(personalityBtn);
+
+  // 打ち込みキャンセルボタン
+  const cancelDropBtn = document.createElement("button");
+  cancelDropBtn.textContent = "打ち込みキャンセル";
+  cancelDropBtn.onclick = () => {
+    selectedDrop = null;
+    dropMode = false;
+    messageElem.textContent = "打ち込みをキャンセルしました";
+  };
+  controlPanel.appendChild(cancelDropBtn);
+
+  // KIF保存ボタン
+  const kifBtn = document.createElement("button");
+  kifBtn.textContent = "KIF保存";
+  kifBtn.onclick = exportKifAsKIF;
+  controlPanel.appendChild(kifBtn);
+
+  // 一時停止／再開 ボタン（必要であれば）
   const pauseBtn = document.createElement("button");
-  pauseBtn.id = "pauseBtn";
   pauseBtn.textContent = "一時停止";
-  pauseBtn.onclick = togglePause;
+  let paused = false;
+  pauseBtn.onclick = () => {
+    paused = !paused;
+    pauseBtn.textContent = paused ? "再開" : "一時停止";
+    if (!paused && aiEnabled && game.turn === "後手") setTimeout(aiPlay, 300);
+  };
   controlPanel.appendChild(pauseBtn);
-const controlPanel = document.createElement("div");
-controlPanel.className = "control-panel";
 
-const saveBtn = document.createElement("button");
-saveBtn.textContent = "棋譜保存";
-saveBtn.onclick = exportKif;
-controlPanel.appendChild(saveBtn);
-
-// ... 他のボタンもここに追加 ...
-
-document.body.appendChild(controlPanel);
-
-
+  document.body.appendChild(controlPanel);
+  showKifuList();
 });
