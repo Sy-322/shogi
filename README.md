@@ -1,2 +1,2 @@
 # shogi
-japanese-shogi
+まぁ、将棋です。
