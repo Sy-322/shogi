@@ -72,6 +72,23 @@ function aiPlay() {
   render();
 }
 
+function exportKif() {
+  const data = {
+    aiDifficulty,
+    aiPersonality,
+    history: moveHistory
+  };
+  const dataStr = JSON.stringify(data, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "kifu.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+
 function updateHands() {
   const senteHandElem = document.getElementById("sente-hand");
   const goteHandElem = document.getElementById("gote-hand");
