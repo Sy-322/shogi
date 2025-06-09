@@ -194,6 +194,7 @@ function handleCellClick(x, y) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // 初期化
   boardElem = document.getElementById("board");
   messageElem = document.getElementById("message");
   turnElem = document.getElementById("turn");
@@ -205,8 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
   moveHistory = [];
   aiEnabled = false;
 
+  // コントロールパネル作成
   const controlPanel = document.createElement("div");
   controlPanel.className = "control-panel";
+  document.body.appendChild(controlPanel); // ★ 先に追加！
 
   // 棋譜保存ボタン
   const saveBtn = document.createElement("button");
@@ -224,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   controlPanel.appendChild(loadInput);
 
-  // AI ON/OFF ボタン
+  // AI ON/OFF
   const aiToggle = document.createElement("button");
   aiToggle.id = "aiToggle";
   aiToggle.textContent = "AI: OFF";
@@ -235,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   controlPanel.appendChild(aiToggle);
 
-  // 難易度ボタン
+  // 難易度
   const difficultyBtn = document.createElement("button");
   difficultyBtn.id = "difficultyBtn";
   difficultyBtn.textContent = "難易度: 普通";
@@ -245,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   controlPanel.appendChild(difficultyBtn);
 
-  // 性格ボタン
+  // 性格
   const personalityBtn = document.createElement("button");
   personalityBtn.id = "personalityBtn";
   personalityBtn.textContent = "性格: バランス";
@@ -257,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   controlPanel.appendChild(personalityBtn);
 
-  // 打ち込みキャンセルボタン
+  // 打ち込みキャンセル
   const cancelDropBtn = document.createElement("button");
   cancelDropBtn.textContent = "打ち込みキャンセル";
   cancelDropBtn.onclick = () => {
@@ -267,13 +270,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   controlPanel.appendChild(cancelDropBtn);
 
-  // KIF保存ボタン
+  // KIF保存
   const kifBtn = document.createElement("button");
   kifBtn.textContent = "KIF保存";
   kifBtn.onclick = exportKifAsKIF;
   controlPanel.appendChild(kifBtn);
 
-  // 一時停止／再開 ボタン
+  // 一時停止/再開
   const pauseBtn = document.createElement("button");
   pauseBtn.textContent = "一時停止";
   let paused = false;
@@ -284,7 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   controlPanel.appendChild(pauseBtn);
 
-  document.body.appendChild(controlPanel);
+  // 残りのUIセットアップ
   showKifuList();
   render();
 });
+
