@@ -88,6 +88,43 @@ function exportKif() {
   URL.revokeObjectURL(url);
 }
 
+function exportKifAsKIF() {
+  const lines = [];
+  lines.push("手合割：平手");
+  lines.push("先手：あなた");
+  lines.push("後手：AI");
+
+  moveHistory.forEach((move, i) => {
+    const turn = i % 2 === 0 ? "▲" : "△";
+    const num = i + 1;
+    let moveStr = "";
+
+    if (move.drop) {
+      const file = move.to.x + 1;
+      const rank = move.to.y + 1;
+      moveStr = `${num} ${turn}${file}${rank}打${move.piece}`;
+    } else {
+      const fx = move.from.x + 1;
+      const fy = move.from.y + 1;
+      const tx = move.to.x + 1;
+      const ty = move.to.y + 1;
+      const promo = move.promote ? "成" : "";
+      moveStr = `${num} ${turn}${tx}${ty}(${fx}${fy})${promo}`;
+    }
+
+    lines.push(moveStr);
+  });
+
+  const kifStr = lines.join("\n");
+  const blob = new Blob([kifStr], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "kifu.kif";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 
 function updateHands() {
   const senteHandElem = document.getElementById("sente-hand");
