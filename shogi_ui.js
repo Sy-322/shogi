@@ -72,22 +72,7 @@ function aiPlay() {
   render();
 }
 
-function exportKif() {
-  const data = {
-    aiDifficulty,
-    aiPersonality,
-    history: moveHistory
-  };
-  const dataStr = JSON.stringify(data, null, 2);
-  const blob = new Blob([dataStr], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "kifu.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
+// --- 関数定義 ---
 function exportKifAsKIF() {
   const lines = [];
   lines.push("手合割：平手");
@@ -124,6 +109,15 @@ function exportKifAsKIF() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+// --- DOMContentLoaded ---
+document.addEventListener("DOMContentLoaded", () => {
+  const kifBtn = document.createElement("button");
+  kifBtn.textContent = "KIF保存";
+  kifBtn.onclick = exportKifAsKIF; // ここで使ってもOK
+});
+
+
 
 
 function updateHands() {
