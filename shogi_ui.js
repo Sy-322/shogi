@@ -205,8 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
   moveHistory = [];
   aiEnabled = false;
 
-  render();
-
   const controlPanel = document.createElement("div");
   controlPanel.className = "control-panel";
 
@@ -288,5 +286,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(controlPanel);
   showKifuList();
+  render();
 });
-
