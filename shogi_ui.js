@@ -46,6 +46,44 @@ function startTimer() {
   }, 1000);
 }
 
+function render() {
+  boardElem.innerHTML = "";
+  for (let y = 0; y < 9; y++) {
+    const row = document.createElement("div");
+    row.className = "row";
+    for (let x = 0; x < 9; x++) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+
+      const piece = game.board[y][x];
+      if (piece) {
+        const span = document.createElement("span");
+        span.className = "piece";
+        span.textContent = piece.promoted ? "成" + piece.type : piece.type;
+        if (piece.owner === "後手") span.style.transform = "rotate(180deg)";
+        span.addEventListener("click", () => handlePieceClick(x, y));
+        cell.appendChild(span);
+      }
+
+      if (selected && selected.owner === game.turn) {
+        const legalMoves = game.getLegalMoves(selected.x, selected.y);
+        if (legalMoves.some(([mx, my]) => mx === x && my === y)) {
+          cell.classList.add("legal-move");
+          cell.addEventListener("click", () => handleCellClick(x, y));
+        }
+      }
+
+      row.appendChild(cell);
+    }
+    boardElem.appendChild(row);
+  }
+
+  updateTurn();
+  updateTimers();
+  updateHands();
+  updateKifuList();
+}
+
 function exportKif() {
   const data = {
     aiDifficulty,
